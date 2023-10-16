@@ -12,26 +12,22 @@ export default class Cart {
   }
 
   totalPrice() {
-    let sum: number = 0
-    for(let key in this._items) {
-        sum += this._items[key].price
-    }
+    let sum: number = this._items.reduce((acc, item) => {
+      return acc + item.price;
+    },0)
     return sum;
   }
   discountCalc(value : number) {
-    let sum: number = 0
-    for(let key in this._items) {
-        sum += this._items[key].price
-    }
-    let discount: number = (sum * value) / 100
-    return sum - discount
+    let sum: number = this.totalPrice();
+    let discount: number = (sum * value) / 100;
+    return sum - discount;
   }
 
   delete(id: number): void {
     let findeProductIndex: number = this._items.findIndex(product => {return product.id === id});
-    this._items.splice(findeProductIndex, 1)
+    this._items.splice(findeProductIndex, 1);
     if(findeProductIndex === -1) {
-      throw Error("Ошибка! Данный товар отсутствует")
+      throw Error("Ошибка! Данный товар отсутствует");
     }
     
 
